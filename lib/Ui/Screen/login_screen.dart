@@ -1,4 +1,5 @@
 import 'package:crud_app/Ui/Screen/forgot_password_screen.dart';
+import 'package:crud_app/Ui/Screen/main_bottom_nav_screen.dart';
 import 'package:crud_app/Ui/Screen/sign_up_screen.dart';
 import 'package:crud_app/Ui/Widget/body_background.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,7 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: (){}, child: const Icon(Icons.arrow_circle_right_outlined))),
+              child: ElevatedButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MainBottom(),));
+              }, child: const Icon(Icons.arrow_circle_right_outlined))),
           const SizedBox(height: 48.0),
           Center(child: TextButton(
             child: Text("Forget Password?",style: TextStyle(color: Colors.grey,fontSize: 16),),onPressed: (){
