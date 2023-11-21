@@ -20,7 +20,7 @@ class ProfileSummaryCard extends StatelessWidget {
               ));
         }
       },
-      leading: CircleAvatar(
+      leading: const CircleAvatar(
         child: Icon(Icons.person),
       ),
       title: Text("Rabbil Hasan",
