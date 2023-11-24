@@ -221,3 +221,4 @@ bool isValidating(String email, dynamic charecter) {
   RegExp regex = RegExp(emailRegex);
   return regex.hasMatch(email);
 }
+
