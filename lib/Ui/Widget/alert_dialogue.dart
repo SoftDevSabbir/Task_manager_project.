@@ -7,11 +7,12 @@ import '../controller/auth_controller.dart';
 MyAlertDialog(context){
   return showDialog(context: context, builder: (context) => Expanded(child: AlertDialog(
     title: Text('ALert !'),
-    content: Text('Are You Sure..?'),
+    content: Text('Are You Sure to Logout?'),
     actions: [
       CupertinoButton(
         onPressed: () { },
-        child: TextButton(onPressed: (){
+        child: TextButton(
+            onPressed: (){
           Navigator.of(context).pop();
         }, child: Text('No')),
       ),
