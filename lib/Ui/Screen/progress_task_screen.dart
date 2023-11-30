@@ -25,7 +25,7 @@ class _NewTasksScreenState extends State<ProgressTasksScreen> {
                       itemBuilder: (context, index) =>
                           Padding(
                             padding: const EdgeInsets.only(top: 18),
-                            child: TaskItemCard(),
+                           // child: TaskItemCard(),
                           ),
                       itemCount: 8,
                     ))

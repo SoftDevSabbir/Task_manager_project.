@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../data_network_caller/models/task.dart';
+
 class TaskItemCard extends StatelessWidget {
-  const TaskItemCard({
-    super.key,
+   TaskItemCard({
+    super.key, required this.task,
   });
 
+  final Task task;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -13,15 +16,15 @@ class TaskItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Tittle will be here",
+          Text(task.title??'',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Text("Describtion"),
-          Text("Date: 12-12-2020"),
+          Text(task.description??''),
+          Text('Date : ${task.createdDate}'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Chip(
-                  label: Text("New", style: TextStyle(color: Colors.white)),
+                  label: Text(task.status??'New', style: TextStyle(color: Colors.white)),
                   backgroundColor: Colors.blue),
               Wrap(
                 children: [
