@@ -18,8 +18,8 @@ class _MainBottomState extends State<MainBottom> {
  final List<Widget> _screen=const [
     NewTasksScreen(),
     ProgressTasksScreen(),
-    CompletedTasksScreen(),
-   CanceTasksScreen(),
+   CompletedTaskScreen(),
+   CancelledTaskScreen(),
   ];
 
   @override

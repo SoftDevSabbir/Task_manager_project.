@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SummeryCard extends StatelessWidget {
-  const SummeryCard({
+class SummaryCard extends StatelessWidget {
+  const SummaryCard({
     super.key, required this.count, required this.tittle,
   });
   final String count,tittle;
