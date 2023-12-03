@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import '../Screen/login_screen.dart';
 import '../controller/auth_controller.dart';
 
-MyAlertDialog(context){
+MyAlertDialog(context,Tittle,sTittle){
   return showDialog(context: context, builder: (context) => Expanded(child: AlertDialog(
-    title: Text('ALert !'),
-    content: Text('Are You Sure to Logout?'),
+    title: Text(Tittle),
+    content: Text(sTittle),
     actions: [
       CupertinoButton(
         onPressed: () { },

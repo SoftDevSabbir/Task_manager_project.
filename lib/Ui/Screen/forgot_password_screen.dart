@@ -1,7 +1,5 @@
-import 'package:crud_app/Ui/Screen/forgot_password_screen.dart';
 import 'package:crud_app/Ui/Screen/login_screen.dart';
 import 'package:crud_app/Ui/Screen/pin_verification_screen.dart';
-import 'package:crud_app/Ui/Screen/sign_up_screen.dart';
 import 'package:crud_app/Ui/Widget/body_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

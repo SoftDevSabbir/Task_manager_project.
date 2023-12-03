@@ -4,11 +4,12 @@ import 'package:crud_app/Ui/Screen/login_screen.dart';
 import 'package:crud_app/Ui/controller/auth_controller.dart';
 import 'package:crud_app/app.dart';
 import 'package:http/http.dart';
-
+import 'package:http/http.dart';
 import 'network_reponse.dart';
 import 'package:flutter/material.dart';
 
 class NetworkCaller {
+
   Future<NetworkResponse> PostRequest(String url,
       {Map<String, dynamic>? body, bool isLogin = false}) async {
     try {
@@ -39,6 +40,29 @@ class NetworkCaller {
             isSuccess: false,
             statuscode: response.statusCode,
             jsonResponse: jsonDecode(response.body));
+      }
+    } catch (e) {
+      return NetworkResponse(isSuccess: false, errorMessage: e.toString());
+    }
+  }
+  Future<dynamic> deleteRequest(String url,
+      {Map<String, dynamic>? body,VoidCallback? onUnAuthorize}) async {
+    try {
+      final Response response = await get(Uri.parse(url), headers: {
+        'Content-type': 'application/json',
+        'token': AuthController.token.toString(),
+
+      });
+
+      if (response.statusCode == 200 && jsonDecode(response.body)['status'] == 'success') {
+        return true;
+        //return true;
+      } else if (response.statusCode == 401) {
+        if (onUnAuthorize != null) {
+          onUnAuthorize();
+        }
+      } else {
+        log('Something went wrong ${response.statusCode}');
       }
     } catch (e) {
       return NetworkResponse(isSuccess: false, errorMessage: e.toString());
@@ -87,4 +111,6 @@ class NetworkCaller {
         ),
         (route) => false);
   }
+
+
 }

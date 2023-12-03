@@ -1,5 +1,4 @@
 import 'package:crud_app/data_network_caller/models/task.dart';
-
 class TaskListModel {
   String? status;
   List<Task>? taskList;

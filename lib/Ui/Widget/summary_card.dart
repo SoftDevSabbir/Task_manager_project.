@@ -10,7 +10,9 @@ class SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 95,
-      child: Card(
+      child: Card(color: Colors.grey.shade100,
+        shadowColor: Colors.green,
+        borderOnForeground: true,elevation:8.0,
         child: Padding(padding: EdgeInsets.symmetric(vertical: 16,horizontal: 32),
           child: Column(
             children: [

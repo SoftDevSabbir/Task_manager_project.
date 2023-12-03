@@ -1,108 +1,11 @@
-// import 'package:crud_app/data_network_caller/network_caller.dart';
-// import 'package:crud_app/data_network_caller/utility/urls.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-//
-// import '../../data_network_caller/models/task.dart';
-//
-// enum TaskStaus { New, Progress, Completed, Cancelled }
-//
-// class TaskItemCard extends StatefulWidget {
-//   TaskItemCard({
-//     super.key,
-//     required this.task,
-//   });
-//
-//   final Task task;
-//
-//   @override
-//   State<TaskItemCard> createState() => _TaskItemCardState();
-// }
-//
-// class _TaskItemCardState extends State<TaskItemCard> {
-//   Future<void> updateTaskStatus(String status) async {
-//     final response=await NetworkCaller().getRequest(Urls.updateTaskStatus(widget.task.sId??'', status));
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(widget.task.title ?? '',
-//               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-//           Text(widget.task.description ?? ''),
-//           Text('Date : ${widget.task.createdDate}'),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Chip(
-//                   label: Text(widget.task.status ?? 'New',
-//                       style: TextStyle(color: Colors.white)),
-//                   backgroundColor: Colors.blue),
-//               Wrap(
-//                 children: [
-//                   IconButton(
-//                       onPressed: () {},
-//                       icon: Icon(Icons.delete_forever_outlined)),
-//                   IconButton(
-//                       onPressed: () {
-//                         showUpdateStatusModal();
-//                       },
-//                       icon: Icon(Icons.edit)),
-//                 ],
-//               )
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//   }
-//
-//   void showUpdateStatusModal() {
-//     List<ListTile> item = TaskStaus.values
-//         .map((e) => ListTile(
-//               title: Text(e.name),
-//       onTap: (){
-//                 updateTaskStatus(e.name);
-//                 Navigator.pop(context);
-//       },
-//             ))
-//         .toList();
-//
-//     showDialog(
-//       context: context,
-//       builder: (context) => AlertDialog(
-//         title: Text("Update Status"),
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: item,
-//         ),
-//         actions: [
-//           ButtonBar(
-//             children: [
-//               TextButton(
-//                   onPressed: () {
-//                     Navigator.pop(context);
-//                   },
-//                   child: Text(
-//                     "Cancel",
-//                     style: TextStyle(color: Colors.blueGrey),
-//                   )),
-//               // TextButton(onPressed: () {}, child: Text("Update")),
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import '../../data_network_caller/models/task.dart';
+import '../../data_network_caller/models/taskListModel.dart';
 import '../../data_network_caller/network_caller.dart';
+import '../../data_network_caller/network_reponse.dart';
 import '../../data_network_caller/utility/urls.dart';
+import 'alert_dialogue.dart';
 
 enum TaskStatus {
   New,
@@ -112,6 +15,7 @@ enum TaskStatus {
 }
 
 class TaskItemCard extends StatefulWidget {
+
   const TaskItemCard({
     super.key,
     required this.task,
@@ -128,55 +32,129 @@ class TaskItemCard extends StatefulWidget {
 }
 
 class _TaskItemCardState extends State<TaskItemCard> {
-  Future<void> updateTaskStatus(String status) async {
-    widget.showProgress(true);
+
+ TaskListModel taskListModel = TaskListModel();
+
+ Future<void> updateTaskStatus(String status) async {
+
+   widget.showProgress(true);
     final response = await NetworkCaller()
         .getRequest(Urls.updateTaskStatus(widget.task.sId ?? '', status));
     if (response.isSuccess) {
-      widget.onStatusChange();
+      setState(() {
+
+      });
+      widget.showProgress(false);
+
+     widget.onStatusChange();
     }
-    widget.showProgress(false);
+widget.showProgress(false);
   }
 
-  @override
+
+
+ @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.task.title ?? '',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            Text(widget.task.description ?? ''),
-            Text('Date : ${widget.task.createdDate}'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Chip(
-                  label: Text(
-                    widget.task.status ?? 'New',
-                    style: const TextStyle(color: Colors.white),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.task.title ?? '',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              Text(widget.task.description ?? ''),
+              Text('Date : ${widget.task.createdDate}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Chip(
+                    label: Text(
+                      widget.task.status ?? 'New',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.blue,
                   ),
-                  backgroundColor: Colors.blue,
-                ),
-                Wrap(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          showUpdateStatusModal();
-                        },
-                        icon: const Icon(Icons.edit)),
-                  ],
-                )
-              ],
-            )
-          ],
+                  Wrap(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            DeleteItem( widget.task.sId ?? '',);
+
+                          },
+                          icon: const Icon(Icons.delete_forever_outlined,color: Colors.red,)),   IconButton(
+                          onPressed: () {
+                            showUpdateStatusModal();
+                          },
+                          icon: const Icon(Icons.edit)),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
-      ),
+      );
+
+  }
+  Future<void> DeleteTask() async {
+ //widget.showProgress(true);
+ setState(() {
+
+ });
+    final NetworkResponse response =
+    await NetworkCaller().deleteRequest(Urls.deleteTaskUrl(widget.task.sId ?? '',));
+    if (response.isSuccess) {
+      MyAlertDialog(context, "jjhg", "jhvhh");
+     // AlertDialog(
+     //    title: Text("Delete Successful"),
+     //    //content: Text("Onece delete, you can't get it back"),
+     //    actions: [
+     //      OutlinedButton(onPressed: () async {
+     //        Navigator.push(context, MaterialPageRoute(builder: (context) => NewTasksScreen(),));
+     //      }, child: Text('Ok')),
+     //      OutlinedButton(onPressed: (){
+     //        Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewTaskScreen(),));
+     //      }, child: Text('Add New')),
+     //
+     //    ],
+     //  );
+    }
+    widget.showProgress(false);
+setState(() {
+//  getNewTaskList();
+});
+  }
+
+  DeleteItem(id) async{
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Delete !"),
+            content: Text("Onece delete, you can't get it back"),
+            actions: [
+              OutlinedButton(onPressed: () async {
+                DeleteTask();
+                 Navigator.pop(context);
+                setState(() {
+              //  MyAlertDialog(context, "delete", "success");
+                 });
+                // await NetworkCaller().deleteRequest(id);
+               //await CallData();
+
+              }, child: Text('Yes')),
+              OutlinedButton(onPressed: (){
+                Navigator.pop(context);
+              }, child: Text('No')),
+
+            ],
+          );
+
+        }
     );
   }
 
@@ -221,4 +199,5 @@ class _TaskItemCardState extends State<TaskItemCard> {
         });
   }
 }
+
 

@@ -1,58 +1,69 @@
-import 'package:crud_app/Ui/Screen/edit_profile_screen.dart';
-import 'package:crud_app/Ui/Screen/login_screen.dart';
-import 'package:crud_app/Ui/controller/auth_controller.dart';
-import 'package:flutter/cupertino.dart';
+
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import '../Screen/edit_profile_screen.dart';
+import '../Screen/login_screen.dart';
+import '../controller/auth_controller.dart';
 
-import 'alert_dialogue.dart';
-
-class ProfileSummaryCard extends StatefulWidget {
+class ProfileSummaryCard extends StatelessWidget {
   const ProfileSummaryCard({
     super.key,
-    this.enableOntap = true,
+    this.enableOnTap = true,
   });
-  final bool enableOntap;
 
-  @override
-  State<ProfileSummaryCard> createState() => _ProfileSummaryCardState();
-}
+  final bool enableOnTap;
 
-class _ProfileSummaryCardState extends State<ProfileSummaryCard> {
   @override
   Widget build(BuildContext context) {
+    Uint8List imageBytes = const Base64Decoder().convert(AuthController.user?.photo ?? '');
+
     return ListTile(
-        tileColor: Colors.green,
-        onTap: () {
-          if (widget.enableOntap) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditProfileScreen(),
-                ));
-          }
-        },
-        leading: const CircleAvatar(
-          child: Icon(Icons.person),
-        ),
-        title: Text(fullName,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        subtitle: Text(
-          AuthController.user?.email??'',
-          style: TextStyle(
-            color: Colors.white,
+      onTap: () {
+        if (enableOnTap) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EditProfileScreen(),
+            ),
+          );
+        }
+      },
+      leading: CircleAvatar(
+        child: AuthController.user?.photo == null
+            ? const Icon(Icons.person)
+            : ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Image.memory(
+            imageBytes,
+            fit: BoxFit.cover,
           ),
         ),
-        trailing: IconButton(
-          onPressed: () {
-            MyAlertDialog(context);
-          },
-          icon: Icon(Icons.logout),
-        ));
+      ),
+      title: Text(
+        fullName,
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+      ),
+      subtitle: Text(
+        AuthController.user?.email ?? '',
+        style: const TextStyle(color: Colors.white),
+      ),
+      trailing: IconButton(
+        onPressed: () async {
+          await AuthController.clearAuthData();
+          // TODO : solve this warning
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (context) => const LoginScreen()), (
+              route) => false);
+        },
+        icon: const Icon(Icons.logout),
+      ),
+      tileColor: Colors.green,
+    );
+  }
+
+  String get fullName {
+    return '${AuthController.user?.firstName ?? ''} ${AuthController.user?.lastName ?? ')'}';
   }
 }
-
-
-String get fullName{
-  return '${AuthController.user?.firstName??''}' +' ' '${ AuthController.user?.lastName??''}';
-}
-
