@@ -50,7 +50,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              const ProfileSummaryCard(),
+               ProfileSummaryCard(),
               Expanded(
                 child: Visibility(
                   visible: getProgressTaskInProgress == false,

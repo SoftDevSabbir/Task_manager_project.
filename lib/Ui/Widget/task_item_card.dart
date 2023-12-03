@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../data_network_caller/models/task.dart';
 import '../../data_network_caller/models/taskListModel.dart';
@@ -34,28 +35,20 @@ class TaskItemCard extends StatefulWidget {
 class _TaskItemCardState extends State<TaskItemCard> {
 
  TaskListModel taskListModel = TaskListModel();
-
  Future<void> updateTaskStatus(String status) async {
-
    widget.showProgress(true);
-    final response = await NetworkCaller()
-        .getRequest(Urls.updateTaskStatus(widget.task.sId ?? '', status));
-    if (response.isSuccess) {
-      setState(() {
-
-      });
-      widget.showProgress(false);
-
+   final response = await NetworkCaller()
+       .getRequest(Urls.updateTaskStatus(widget.task.sId ?? '', status));
+   if (response.isSuccess) {
      widget.onStatusChange();
-    }
-widget.showProgress(false);
-  }
-
-
+   }
+   widget.showProgress(false);
+ }
 
  @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.blueGrey.shade100,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -64,17 +57,17 @@ widget.showProgress(false);
             children: [
               Text(
                 widget.task.title ?? '',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
               ),
-              Text(widget.task.description ?? ''),
-              Text('Date : ${widget.task.createdDate}'),
+              Text(widget.task.description ?? '',style: TextStyle(fontSize: 18),),
+              Text('Date : ${widget.task.createdDate}',style: TextStyle(fontSize: 15),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Chip(
                     label: Text(
                       widget.task.status ?? 'New',
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white,fontSize: 20),
                     ),
                     backgroundColor: Colors.blue,
                   ),
@@ -101,31 +94,19 @@ widget.showProgress(false);
 
   }
   Future<void> DeleteTask() async {
- //widget.showProgress(true);
+widget.showProgress(true);
  setState(() {
 
  });
+widget.showProgress(false);
     final NetworkResponse response =
     await NetworkCaller().deleteRequest(Urls.deleteTaskUrl(widget.task.sId ?? '',));
     if (response.isSuccess) {
-      MyAlertDialog(context, "jjhg", "jhvhh");
-     // AlertDialog(
-     //    title: Text("Delete Successful"),
-     //    //content: Text("Onece delete, you can't get it back"),
-     //    actions: [
-     //      OutlinedButton(onPressed: () async {
-     //        Navigator.push(context, MaterialPageRoute(builder: (context) => NewTasksScreen(),));
-     //      }, child: Text('Ok')),
-     //      OutlinedButton(onPressed: (){
-     //        Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewTaskScreen(),));
-     //      }, child: Text('Add New')),
-     //
-     //    ],
-     //  );
+
     }
     widget.showProgress(false);
 setState(() {
-//  getNewTaskList();
+
 });
   }
 
@@ -139,12 +120,12 @@ setState(() {
             actions: [
               OutlinedButton(onPressed: () async {
                 DeleteTask();
-                 Navigator.pop(context);
+                Navigator.pop(context);
+                TaskDeleteAlertDialog(context,"Successful","Task Delete Successful");
+
                 setState(() {
-              //  MyAlertDialog(context, "delete", "success");
+
                  });
-                // await NetworkCaller().deleteRequest(id);
-               //await CallData();
 
               }, child: Text('Yes')),
               OutlinedButton(onPressed: (){

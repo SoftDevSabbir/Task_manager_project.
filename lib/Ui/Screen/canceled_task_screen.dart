@@ -48,7 +48,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              const ProfileSummaryCard(),
+               ProfileSummaryCard(),
               Expanded(
                 child: Visibility(
                   visible: getProgressTaskInProgress == false,

@@ -8,16 +8,21 @@ import '../Screen/login_screen.dart';
 import '../controller/auth_controller.dart';
 
 class ProfileSummaryCard extends StatelessWidget {
-  const ProfileSummaryCard({
+   ProfileSummaryCard({
     super.key,
     this.enableOnTap = true,
   });
 
   final bool enableOnTap;
-
+String base64String=AuthController.user?.photo??"";
   @override
   Widget build(BuildContext context) {
-    Uint8List imageBytes = const Base64Decoder().convert(AuthController.user?.photo ?? '');
+    if (base64String.startsWith('data:image')) {
+      // Remove data URI prefix if present
+      base64String =
+          base64String.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), '');
+    }
+    Uint8List imageBytes = const Base64Decoder().convert(base64String);
 
     return ListTile(
       onTap: () {

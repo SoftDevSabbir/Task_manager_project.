@@ -46,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const ProfileSummaryCard(
+             ProfileSummaryCard(
               enableOnTap: false,
             ),
             Expanded(
